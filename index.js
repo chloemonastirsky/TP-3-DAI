@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import fs from 'fs';
 
 const productos = JSON.parse(fs.readFileSync('./productos.json', 'utf-8'));
@@ -16,3 +17,10 @@ function agregarProducto(nombre, precio) {
 
 agregarProducto('Monitor', 5000);
 console.log(getProductos());
+
+function mostrarFechaHoraActual(){
+   const hoy = dayjs();
+    console.log(hoy.format('DD/MM/YYYY'));     
+    console.log(hoy.format('HH:mm:ss'));   
+}
+mostrarFechaHoraActual();
