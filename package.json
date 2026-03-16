@@ -1,12 +1,14 @@
 {
-  "name": "tp-3-dai",
+  "name": "tp-2-dai",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
+
