@@ -7,3 +7,12 @@ function getProductos() {
 }
 
 console.log(getProductos());
+
+function agregarProducto(nombre, precio) {
+    const nuevoProducto = { nombre, precio };
+    productos.push(nuevoProducto);
+    fs.writeFileSync('./productos.json', JSON.stringify(productos, null, 2));
+}
+
+agregarProducto('Monitor', 5000);
+console.log(getProductos());
