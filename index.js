@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import fs from 'fs';
+import axios from 'axios';
 
 const productos = JSON.parse(fs.readFileSync('./productos.json', 'utf-8'));
 
@@ -26,19 +27,26 @@ function mostrarFechaHoraActual(){
 mostrarFechaHoraActual();
 
 
-function mostrarPais(nombrePais) {
-    fetch('https://restcountries.com/v3.1/all')
-    .then (res => res.json())
-    .then (data => {
-        const pais = data.data[nombrePais];
-        if (pais) {
-            console.log(`El país es ${nombrePais}`);
-        } else {
-            console.log(`No se encontró información para el país ${nombrePais}`);
-        }
-    })
+async function obtenerPais(nombrePais) {
+    try {
+        const respuesta = await axios.get(`https://restcountries.com/v3.1/name/${nombrePais}`);
+        
+        const datos = respuesta.data[0];
+
+        const nombre    = datos.name.common;      // ← name.common
+        const capital   = datos.capital[0];
+        const region    = datos.region;
+        const poblacion = datos.population;
+
+        console.log(`País: ${nombre} Capital: ${capital} Región: ${region} Población: ${poblacion}`);
+
+    } catch (error) {
+        console.log("País no encontrado:", error.message);
+    }
 }
-mostrarPais("Argentina");
+
+obtenerPais("China");
+
 
 function buscarProducto(nombreProducto) {  
     import('./productos.json')
@@ -51,5 +59,15 @@ function buscarProducto(nombreProducto) {
 }
 
 console.log(buscarProducto("Monitor"));
+
+function generarCSV() {
+    const encabezados = "Nombre,Precio\n";
+    const filas = productos.map(producto => `${producto.nombre},${producto.precio}`);
+    const contenidoCSV = encabezados + filas;
+    fs.writeFileSync('./productos.csv', contenidoCSV);
+}
+
+generarCSV();
+
 
 
