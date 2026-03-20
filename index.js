@@ -27,7 +27,7 @@ mostrarFechaHoraActual();
 
 
 function mostrarPais(nombrePais) {
-    fetch('https://api.first.org/data/v1/countries')
+    fetch('https://restcountries.com/v3.1/all')
     .then (res => res.json())
     .then (data => {
         const pais = data.data[nombrePais];
@@ -39,5 +39,17 @@ function mostrarPais(nombrePais) {
     })
 }
 mostrarPais("Argentina");
+
+function buscarProducto(nombreProducto) {  
+    import('./productos.json')
+    for (const producto of productos) {
+        if (producto.nombre === nombreProducto) {
+            console.log(`El producto ${nombreProducto} tiene un precio de ${producto.precio}`);
+            return;
+        }    
+    }
+}
+
+console.log(buscarProducto("Monitor"));
 
 
