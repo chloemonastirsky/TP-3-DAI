@@ -24,3 +24,20 @@ function mostrarFechaHoraActual(){
     console.log(hoy.format('HH:mm:ss'));   
 }
 mostrarFechaHoraActual();
+
+
+function mostrarPais(nombrePais) {
+    fetch('https://api.first.org/data/v1/countries')
+    .then (res => res.json())
+    .then (data => {
+        const pais = data.data[nombrePais];
+        if (pais) {
+            console.log(`El país es ${nombrePais}`);
+        } else {
+            console.log(`No se encontró información para el país ${nombrePais}`);
+        }
+    })
+}
+mostrarPais("Argentina");
+
+
