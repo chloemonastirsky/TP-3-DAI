@@ -33,7 +33,7 @@ async function obtenerPais(nombrePais) {
         
         const datos = respuesta.data[0];
 
-        const nombre    = datos.name.common;      // ← name.common
+        const nombre    = datos.name.common;      
         const capital   = datos.capital[0];
         const region    = datos.region;
         const poblacion = datos.population;
@@ -49,7 +49,7 @@ obtenerPais("China");
 
 
 function buscarProducto(nombreProducto) {  
-    import('./productos.json')
+    fs.writeFileSync('./productos.json', JSON.stringify(productos, null, 2));
     for (const producto of productos) {
         if (producto.nombre === nombreProducto) {
             console.log(`El producto ${nombreProducto} tiene un precio de ${producto.precio}`);
@@ -63,11 +63,55 @@ console.log(buscarProducto("Monitor"));
 function generarCSV() {
     const encabezados = "Nombre,Precio\n";
     const filas = productos.map(producto => `${producto.nombre},${producto.precio}`);
-    const contenidoCSV = encabezados + filas;
-    fs.writeFileSync('./productos.csv', contenidoCSV);
+    const csv = [encabezados, ...filas].join('\n');
+    fs.writeFileSync('./productos.csv', csv);
 }
 
 generarCSV();
+
+function temporizador() {
+    let contador = 0;
+       const intervalo= setInterval(() => {
+            contador++;
+            console.log(`Han pasado ${contador} segundos`);
+            if (contador === 10) {
+                clearInterval(intervalo);
+               setTimeout(() => {
+                console.log("¡Tiempo terminado!");
+                
+            }, 500);
+            }
+        }, 1000);
+}
+
+temporizador();
+
+function analizarTexto(texto){
+    const palabras = texto.split(' ');
+    const cantidadPalabras = palabras.length;
+    const cantidadCaracteres = texto.length;
+    const cantidadVocales=texto.length - texto.replace(/[aeiouAEIOU]/g, '').length;
+    const cantidadConsonantes = texto.length - texto.replace(/[bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ]/g, '').length;
+    console.log(`Cantidad de palabras: ${cantidadPalabras}`);
+    console.log(`Cantidad de caracteres: ${cantidadCaracteres}`);
+    console.log(`Cantidad de vocales: ${cantidadVocales}`);
+    console.log(`Cantidad de consonantes: ${cantidadConsonantes}`);
+}
+
+analizarTexto("Hola, mundo");
+
+function validarPassword(password){
+    if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+        console.log("Contraseña inválida. Debe tener al menos 8 caracteres, una letra mayúscula y un número.");
+    }else{
+        console.log("Contraseña válida.");
+    }
+    
+}
+
+validarPassword("Contraseña123");
+
+
 
 
 
